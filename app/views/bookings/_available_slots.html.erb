@@ -1,0 +1,14 @@
+<div class="rounded bg-slate-200 mx-2">
+  <div class="flex">
+    <% for offset in 0..6 do %>
+      <%# TODO allow setting offset by weeks on the UI (backend is ready) to schedule more distant dates %>
+      <% full_offset = offset.days + @week_offset.weeks %>
+      <% availability = @selected_coach.availabilities.find_by(week_day: (DateTime.current + full_offset).strftime('%A')) %>
+      <% if availability %>
+        <% start = availability.start.to_datetime + full_offset %>
+        <% stop = availability.stop.to_datetime + full_offset %>
+        <%= render partial: 'daily_slots', locals: { availability: availability, start: start.to_datetime, stop:  stop.to_datetime}%>
+      <% end %>
+    <% end %>
+  </div>
+</div>

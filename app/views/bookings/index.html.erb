@@ -1,0 +1,11 @@
+<h1 class="mb-4 text-4xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl">My bookings</h1>
+
+<div class="rounded bg-slate-200 mx-2">
+<h2 class="text-2xl text-gray-900 md:text-2xl lg:text-3xl">Upcoming</h2>
+  <%= render partial: 'booking_list', locals: { bookings: @current_user.bookings.future } %>
+</div>
+
+<div class="rounded bg-slate-200 mx-2 my-2">
+<h2 class="text-2xl text-gray-900 md:text-2xl lg:text-3xl">History</h2>
+  <%= render partial: 'booking_list', locals: { bookings: @current_user.bookings.past } %>
+</div>

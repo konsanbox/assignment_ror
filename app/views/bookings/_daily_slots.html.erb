@@ -1,0 +1,13 @@
+<div class="px-1 flex flex-col">
+  <div>
+    <%= availability.week_day %>
+  </div>
+  <div>
+    <%= start.strftime('%m/%d') %>
+  </div>
+  <div>
+    <% daily_slots(start, stop).each do |sss| %>
+      <%= single_slot(sss) %>
+    <% end %>
+  </div>
+</div>

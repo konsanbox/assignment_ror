@@ -1,0 +1,16 @@
+<div class="rounded bg-slate-200 mx-2">
+  <p class="text-2xl text-gray-900 md:text-2xl lg:text-3xl">Available coaches</p>
+  <ul>
+    <% Coach.all.each do |coach| %>
+      <% if coach == @selected_coach %>
+        <li class="bg-green-800">
+      <% else %>
+        <li class="group/item hover:bg-green-200">
+      <% end %>
+        <%= link_to("#{new_booking_path}/?c=#{coach.id}") do %>
+          <div><%= coach.name %></div>
+        <% end %>    
+      </li>
+    <% end %>
+  </ul>
+</div>
