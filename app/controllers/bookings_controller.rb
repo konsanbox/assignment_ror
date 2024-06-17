@@ -1,7 +1,7 @@
 class BookingsController < ApplicationController
   def new
     set_selected_coach
-    @week_offset = 1
+    @week_offset = permitted_params[:wo].present? ? params[:wo].to_i : 0
   end
 
   def index
@@ -35,6 +35,6 @@ class BookingsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:booking_id, :coach_id, :starts_at, :c)
+    params.permit(:booking_id, :coach_id, :starts_at, :c, :wo)
   end
 end

@@ -12,11 +12,16 @@ class CsvImportAvailability
       coach = Coach.find_or_create_by!(name: row['Name'])
 
       Time.zone = row['Timezone'].split(') ').last
-      start = Time.zone.parse(row['Available at']).getlocal.strftime("%H:%M")
-      stop = Time.zone.parse(row['Available until']).getlocal.strftime("%H:%M")
-      # TODO improve this - some cases may require changing day of the week as well - (GMT-09:00) America/Yakutat,Monday, 8:00PM,11:00PM?
+      start = Time.zone.parse(row['Available at']).getlocal
+      stop = Time.zone.parse(row['Available until']).getlocal
 
-      coach.availabilities.create!(week_day: row['Day of Week'], start: start, stop: stop)
+      if start.day != stop.day
+        coach.availabilities.create!(week_day: row['Day of Week'], start: start.strftime("%H:%M"), stop: '23:59')
+        next_day = Date::DAYNAMES[(Date::DAYNAMES.index(row['Day of Week']) + 1) % 7]
+        coach.availabilities.create!(week_day: next_day, start: '00:00', stop: stop.strftime("%H:%M")) unless stop.strftime("%H:%M") == '00:00'
+      else
+        coach.availabilities.create!(week_day: row['Day of Week'], start: start.strftime("%H:%M"), stop: stop.strftime("%H:%M"))
+      end
     end
 
     Time.zone = initial_zone

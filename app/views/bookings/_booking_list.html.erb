@@ -2,9 +2,11 @@
   <% bookings.each do |booking| %>
     <li>
       <div class="flex my-1">
-        <%= "#{booking.coach.name}: #{format_date(booking.starts_at)} (#{format_time(booking.starts_at)} -> #{format_time(booking.starts_at + 30.minutes)})" %>
+        <p class="bg-slate-100 w-1/3 rounded">
+          <%= "#{booking.coach.name}: #{format_date(booking.starts_at)} (#{format_time(booking.starts_at)} -> #{format_time(booking.starts_at + 30.minutes)})" %>
+        </p>
         <% if booking.starts_at > DateTime.current %>
-          <% css = %w[bg-orange-200 font-bold rounded] %>
+          <% css = %w[ml-2 bg-orange-200 font-bold rounded] %>
           <%= button_to "Cancel",
                     { controller: 'bookings', action: 'destroy', booking_id: booking.id },
                     { method: :delete, class: css, data: {confirm: "Are you sure?"} }

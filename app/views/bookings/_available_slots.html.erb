@@ -3,12 +3,26 @@
     <% for offset in 0..6 do %>
       <%# TODO allow setting offset by weeks on the UI (backend is ready) to schedule more distant dates %>
       <% full_offset = offset.days + @week_offset.weeks %>
-      <% availability = @selected_coach.availabilities.find_by(week_day: (DateTime.current + full_offset).strftime('%A')) %>
-      <% if availability %>
-        <% start = availability.start.to_datetime + full_offset %>
-        <% stop = availability.stop.to_datetime + full_offset %>
-        <%= render partial: 'daily_slots', locals: { availability: availability, start: start.to_datetime, stop:  stop.to_datetime}%>
+      <% availabilities = @selected_coach.availabilities.where(week_day: (DateTime.current + full_offset).strftime('%A')) %>
+      <% if availabilities.any? %>
+        <%= render partial: 'daily_slots', locals: { availabilities: availabilities, full_offset: full_offset } %>
       <% end %>
     <% end %>
+  </div>
+  <hr class="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700">
+  <div class="flex">
+    <div class="w-1/3">
+      <% if @week_offset > 0 %>
+        <%= link_to("#{new_booking_path}/?c=#{@selected_coach.id}&wo=#{@week_offset - 1}") do %>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded"><%= 'Prev week' %></button>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="w-1/3"></div>
+    <div class="w-1/3">
+      <%= link_to("#{new_booking_path}/?c=#{@selected_coach.id}&wo=#{@week_offset + 1}") do %>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded"><%= 'Next week' %></button>
+      <% end %>
+    </div>
   </div>
 </div>

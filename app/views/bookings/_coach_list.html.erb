@@ -3,9 +3,9 @@
   <ul>
     <% Coach.all.each do |coach| %>
       <% if coach == @selected_coach %>
-        <li class="bg-green-800">
+        <li class="bg-blue-500">
       <% else %>
-        <li class="group/item hover:bg-green-200">
+        <li class="group/item hover:bg-blue-200">
       <% end %>
         <%= link_to("#{new_booking_path}/?c=#{coach.id}") do %>
           <div><%= coach.name %></div>
