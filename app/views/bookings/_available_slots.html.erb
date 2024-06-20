@@ -1,7 +1,6 @@
 <div class="rounded bg-slate-200 mx-2">
   <div class="flex">
     <% for offset in 0..6 do %>
-      <%# TODO allow setting offset by weeks on the UI (backend is ready) to schedule more distant dates %>
       <% full_offset = offset.days + @week_offset.weeks %>
       <% availabilities = @selected_coach.availabilities.where(week_day: (DateTime.current + full_offset).wday_name) %>
       <% if availabilities.any? %>
