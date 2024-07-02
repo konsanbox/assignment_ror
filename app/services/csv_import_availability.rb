@@ -12,8 +12,8 @@ class CsvImportAvailability
       coach = Coach.find_or_create_by!(name: row['Name'])
 
       Time.zone = row['Timezone'].split(') ').last
-      start = Time.zone.parse(row['Available at']).getlocal
-      stop = Time.zone.parse(row['Available until']).getlocal
+      start = Time.zone.parse(row['Available at']).in_time_zone(Rails.configuration.time_zone)
+      stop = Time.zone.parse(row['Available until']).in_time_zone(Rails.configuration.time_zone)
 
       if start.day != stop.day
         coach.availabilities.create!(week_day: row['Day of Week'], start: start.strftime("%H:%M"), stop: '23:59')
